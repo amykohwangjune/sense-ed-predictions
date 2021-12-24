@@ -1,9 +1,5 @@
-Flask~=2.0.2
-numpy~=1.20.1
-pandas~=1.2.2
-keras~=2.7.0
-gingerit~=0.8.2
-nltk~=3.6.3
-tensorflow-cpu
-gunicorn
-langdetect
+Flask==1.1.1
+gunicorn==19.9.0
+numpy>=1.9.2
+pandas>=0.19
+nltk>=3.4.5
