@@ -14,7 +14,7 @@ def predict():
     tweets = []
 
     for tweet_obj in tweets_arr:
-        msg = tweet_obj['text_orig']
+        msg = tweet_obj['text']
         tweets += [msg]
 
     with open("tokenizer.pk", 'rb') as tokenizer_file:
