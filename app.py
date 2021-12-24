@@ -9,6 +9,7 @@ app = Flask(__name__)
 @app.route('/predict', methods=['POST'])
 def predict():
     data_obj = request.get_json()
+    print(data_obj)
     tweets_arr = data_obj['data']
     tweets = []
 
