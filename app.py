@@ -1,7 +1,7 @@
 from flask import Flask, request
 import pickle
-from senseed_detector import predict_ed
 from keras.models import load_model
+from tensorflow.python.keras.preprocessing.sequence import pad_sequences
 
 app = Flask(__name__)
 
@@ -9,7 +9,6 @@ app = Flask(__name__)
 @app.route('/predict', methods=['POST'])
 def predict():
     data_obj = request.get_json()
-    print(data_obj)
     tweets_arr = data_obj['data']
     tweets = []
 
@@ -22,14 +21,20 @@ def predict():
     model = load_model("glove_model.h5")
     ed = 0
 
-    for text in tweets:
-        pred, score = predict_ed(text, tokenizer_obj, model)
-        if pred == 1:
+    test_sequences = tokenizer_obj.texts_to_sequences(tweets)
+    test_review_pad = pad_sequences(test_sequences, maxlen=25, padding='post')
+    predictions = model.predict(test_review_pad)
+
+    ed, score = 0, 0
+
+    for pred in predictions:
+        if pred >= 0.5:
             ed += 1
 
-    score = (ed / len(tweets)) * 100
+    score = 100 * ed / len(tweets)
 
     return str(score)
+
 
 
 if __name__ == '__main__':
